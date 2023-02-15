@@ -1,25 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useRef } from 'react';
+import './SpeechToText.css';
 
-function App() {
+function SpeechToText() {
+  const [transcript, setTranscript] = useState('');
+  const recognitionRef = useRef(null);
+
+  const handleStart = () => {
+    recognitionRef.current = new window.webkitSpeechRecognition();
+    recognitionRef.current.continuous = true;
+    recognitionRef.current.interimResults = true;
+    recognitionRef.current.onresult = handleResult;
+    recognitionRef.current.start();
+  };
+
+  const handleStop = () => {
+    recognitionRef.current.stop();
+  };
+
+  const handleResult = (event) => {
+    const transcriptArray = Array.from(event.results)
+      .map((result) => result[0])
+      .map((result) => result.transcript);
+    const currentTranscript = transcriptArray.join('');
+    setTranscript(currentTranscript);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <h1>Speech to Text</h1>
+      <div className="controls">
+        <button className="start-button" onClick={handleStart}>
+          Start
+        </button>
+        <button className="stop-button" onClick={handleStop}>
+          Stop
+        </button>
+      </div>
+      <div className="transcript-box">
+        <textarea
+          className="transcript-textarea"
+          defaultValue={transcript}
+        />
+      </div>
     </div>
   );
 }
 
-export default App;
+export default SpeechToText;
