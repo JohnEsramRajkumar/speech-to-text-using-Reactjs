@@ -2,10 +2,11 @@ import React, { useState, useRef } from 'react';
 import './SpeechToText.css';
 
 function SpeechToText() {
-  const [transcript, setTranscript] = useState('');
+  const [transcript, setTranscript] = useState(''); 
   const recognitionRef = useRef(null);
   const [isRecording, setIsRecording] = useState(false);
 
+  //handleStart(): sets isRecording to true and starts speech recognition using the webkitSpeechRecognition object.
   const handleStart = () => {
     setIsRecording(true);
     recognitionRef.current = new window.webkitSpeechRecognition();
@@ -15,10 +16,13 @@ function SpeechToText() {
     recognitionRef.current.start();
   };
 
+  //handleStop(): sets isRecording to false and stops speech recognition.
   const handleStop = () => {
     setIsRecording(false);
     recognitionRef.current.stop();
   };
+
+//handleResult(event): processes the result of speech recognition and updates the transcript state with the current transcript.
 
   const handleResult = (event) => {
     const transcriptArray = Array.from(event.results)
@@ -39,11 +43,14 @@ function SpeechToText() {
         />
         <button
           className={`record-button ${isRecording ? 'recording' : ''}`}
+          //onMouseDown and onMouseUp event handlers are used to start and stop recording
           onMouseDown={handleStart}
           onMouseUp={handleStop}
+          //onDoubleClick event handler toggles between starting and stopping recording
           onDoubleClick={isRecording ? handleStop : handleStart}
         >
-          {isRecording ? 'Recording' : 'Record'}
+          {/* If isRecording is true, the string 'Recording' will be displayed, and if it is false, the string 'Record' will be displayed. */}
+          {isRecording ? 'Recording' : 'Record'} 
         </button>
       </div>
     </div>
