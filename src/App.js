@@ -11,10 +11,12 @@ function SpeechToText() {
     recognitionRef.current.interimResults = true;
     recognitionRef.current.onresult = handleResult;
     recognitionRef.current.start();
+    console.log("start button clicked");
   };
 
   const handleStop = () => {
     recognitionRef.current.stop();
+    console.log("Stop button clicked");
   };
 
   const handleResult = (event) => {
