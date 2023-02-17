@@ -3,7 +3,7 @@ import './SpeechToText.css';
 
 function SpeechToText() {
   const [transcript, setTranscript] = useState(''); 
-  const recognitionRef = useRef(null);
+  const recognitionRef = useRef(null); //useRef used to store a mutable value that does not cause a re-render when updated.
   const [isRecording, setIsRecording] = useState(false); //is Recording is the current state , setIsRecording is the function that is used to update our state.
 
   //handleStart(): sets isRecording to true and starts speech recognition using the webkitSpeechRecognition object.
